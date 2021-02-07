@@ -1,0 +1,21 @@
+server:
+  port: 8081
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        # Harmony
+        - id: harmonic-fields-by-tone
+          uri: http://192.168.0.109:8080
+          predicates:
+            - Path=/tones/{tone}/harmonic-fields/{type}
+        # User Registration
+        - id: create-credential
+          uri: http://192.168.0.109:8082
+          predicates:
+            - Path=/users/credentials
+        - id: create-user
+          uri: http://192.168.0.109:8082
+          predicates:
+            - Path=/users/credentials
