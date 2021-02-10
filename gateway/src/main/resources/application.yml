@@ -1,6 +1,10 @@
 server:
   port: 8081
 
+auth:
+  url: http://localhost:8083
+---
+
 spring:
   cloud:
     gateway:
@@ -10,12 +14,24 @@ spring:
           uri: http://192.168.0.109:8080
           predicates:
             - Path=/tones/{tone}/harmonic-fields/{type}
+            - Method=GET
         # User Registration
         - id: create-credential
           uri: http://192.168.0.109:8082
           predicates:
             - Path=/users/credentials
+            - Method=POST
+
         - id: create-user
           uri: http://192.168.0.109:8082
           predicates:
             - Path=/users/credentials
+            - Method=POST
+
+        - id: update-user
+          uri: http://192.168.0.109:8082
+          predicates:
+            - Path=/users/{id}
+            - Method=PATCH
+          filters:
+            - AuthorizationFilter
