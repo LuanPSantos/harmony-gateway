@@ -16,17 +16,15 @@ spring:
             - Path=/tones/{tone}/harmonic-fields/{type}
             - Method=GET
         # User Registration
-        - id: create-credential
-          uri: http://192.168.0.109:8082
-          predicates:
-            - Path=/users/credentials
-            - Method=POST
-
         - id: create-user
           uri: http://192.168.0.109:8082
           predicates:
-            - Path=/users/credentials
+            - Path=/users
             - Method=POST
+          filters:
+            - name: AuthorizationFilter
+              args:
+                role: USER
 
         - id: update-user
           uri: http://192.168.0.109:8082
@@ -34,4 +32,39 @@ spring:
             - Path=/users/{id}
             - Method=PATCH
           filters:
-            - AuthorizationFilter
+            - name: AuthorizationFilter
+              args:
+                role: USER
+
+        - id: find-user-by-id
+          uri: http://192.168.0.109:8082
+          predicates:
+            - Path=/users/{id}
+            - Method=GET
+          filters:
+            - name: AuthorizationFilter
+              args:
+                role: USER
+
+        - id: delete-user-by-id
+          uri: http://192.168.0.109:8082
+          predicates:
+            - Path=/users/{id}
+            - Method=DELETE
+          filters:
+            - name: AuthorizationFilter
+              args:
+                role: USER
+
+        #Auth-Service
+        - id: create-credential
+          uri: http://192.168.0.109:8083
+          predicates:
+            - Path=/credentials
+            - Method=POST
+
+        - id: authenticate
+          uri: http://192.168.0.109:8083
+          predicates:
+            - Path=/authentications
+            - Method=POST
