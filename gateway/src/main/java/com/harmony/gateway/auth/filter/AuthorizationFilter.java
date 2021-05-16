@@ -14,7 +14,7 @@ import static java.util.Objects.requireNonNull;
 public class AuthorizationFilter extends AbstractGatewayFilterFactory<AuthorizationFilter.Config> {
 
     public final String ROLE_PARAM_KEY = "required-role";
-    public final String REFRESH_AUTHENTICATION_TOKEN = "refresh-authentication";
+    public final String REFRESH_AUTHORIZATION_TOKEN = "refresh-authorization";
 
     @Value("${auth.url}")
     private String authUrl;
@@ -27,7 +27,7 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
             String authorization = requireNonNull(exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION)).get(0);
-            HttpCookie cookie = requireNonNull(exchange.getRequest().getCookies().getFirst(REFRESH_AUTHENTICATION_TOKEN));
+            HttpCookie cookie = requireNonNull(exchange.getRequest().getCookies().get(REFRESH_AUTHORIZATION_TOKEN)).get(0);
 
             return WebClient
                     .create(authUrl)
@@ -37,7 +37,7 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
                             .queryParam(ROLE_PARAM_KEY, config.getRole())
                             .build())
                     .header(HttpHeaders.AUTHORIZATION, authorization)
-                    .cookie(REFRESH_AUTHENTICATION_TOKEN, cookie.getValue())
+                    .cookie(REFRESH_AUTHORIZATION_TOKEN, cookie.getValue())
                     .retrieve()
                     .toBodilessEntity()
                     .map((clientResponse -> {
