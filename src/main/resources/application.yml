@@ -51,6 +51,16 @@ spring:
             - name: AuthorizationFilter
               args:
                 role: USER
+        - id: find-user-by-email
+          uri: http://192.168.0.109:8082
+          predicates:
+            - Path=/users
+            - Query=email
+            - Method=GET
+          filters:
+            - name: AuthorizationFilter
+              args:
+                role: USER
 
         #Auth-Service
         - id: authenticate

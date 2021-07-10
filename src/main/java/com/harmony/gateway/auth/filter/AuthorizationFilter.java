@@ -37,7 +37,8 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
                             .queryParam(ROLE_PARAM_KEY, config.getRole())
                             .build())
                     .header(HttpHeaders.AUTHORIZATION, authorization)
-//                    .cookie(REFRESH_AUTHORIZATION_TOKEN, cookie.getValue())
+                    // mudar para cookie.getValue()
+                    .cookie(REFRESH_AUTHORIZATION_TOKEN,authorization.split(" ")[1])
                     .retrieve()
                     .toBodilessEntity()
                     .map((clientResponse -> {
