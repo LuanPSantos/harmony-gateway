@@ -1,4 +1,4 @@
-package com.harmony.gateway;
+package com.harmony.gateway.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
