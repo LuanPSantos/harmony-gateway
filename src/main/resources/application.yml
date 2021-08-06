@@ -32,10 +32,10 @@ spring:
               args:
                 role: USER
 
-        - id: find-user-by-credential-id
+        - id: find-user-by-id
           uri: http://192.168.0.109:8082
           predicates:
-            - Path=/users/credentials/{credentialId}
+            - Path=/users/{credentialId}
             - Method=GET
           filters:
             - name: AuthorizationFilter
