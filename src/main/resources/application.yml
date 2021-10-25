@@ -11,7 +11,7 @@ spring:
       routes:
         # Harmony
         - id: harmonic-fields-by-tone
-          uri: http://192.168.0.109:8081
+          uri: http://harmonic-field:80
           predicates:
             - Path=/tones/{tone}/harmonic-fields/{type}
             - Method=GET
