@@ -2,7 +2,7 @@ server:
   port: 8080
 
 auth:
-  url: http://localhost:8083
+  url: http://harmony-auth:80
 ---
 
 spring:
@@ -17,13 +17,13 @@ spring:
             - Method=GET
         # User Registration
         - id: create-user
-          uri: http://192.168.0.109:8082
+          uri: http://harmony-user-registration:80
           predicates:
             - Path=/users
             - Method=POST
 
         - id: update-user
-          uri: http://192.168.0.109:8082
+          uri: http://harmony-user-registration:80
           predicates:
             - Path=/users/{id}
             - Method=PATCH
@@ -33,7 +33,7 @@ spring:
                 role: USER
 
         - id: find-user-by-id
-          uri: http://192.168.0.109:8082
+          uri: http://harmony-user-registration:80
           predicates:
             - Path=/users/{credentialId}
             - Method=GET
@@ -43,7 +43,7 @@ spring:
                 role: USER
 
         - id: delete-user-by-id
-          uri: http://192.168.0.109:8082
+          uri: http://harmony-user-registration:80
           predicates:
             - Path=/users/{id}
             - Method=DELETE
@@ -54,12 +54,12 @@ spring:
 
         #Auth-Service
         - id: authenticate
-          uri: http://192.168.0.109:8083
+          uri: http://harmony-auth:80
           predicates:
             - Path=/authentications
             - Method=POST
         - id: get-credential-by-id
-          uri: http://192.168.0.109:8083
+          uri: http://harmony-auth:80
           predicates:
             - Path=/credentials/{id}
             - Method=GET
@@ -68,7 +68,7 @@ spring:
               args:
                 role: USER
         - id: update-credential
-          uri: http://192.168.0.109:8083
+          uri: http://harmony-auth:80
           predicates:
             - Path=/credentials/{id}
             - Method=PATCH
@@ -77,12 +77,12 @@ spring:
               args:
                 role: USER
         - id: request-password-recovery
-          uri: http://192.168.0.109:8083
+          uri: http://harmony-auth:80
           predicates:
             - Path=/passwords/recoveries
             - Method=POST
         - id: create-password
-          uri: http://192.168.0.109:8083
+          uri: http://harmony-auth:80
           predicates:
             - Path=/passwords
             - Method=POST
